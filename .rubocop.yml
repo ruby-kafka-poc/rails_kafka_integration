@@ -2,7 +2,7 @@ AllCops:
   NewCops: enable
   Exclude:
     - 'bin/**/*'
-    - 'vendor/'
+    - 'vendor/**/*'
   TargetRubyVersion: 3.1.2
   SuggestExtensions: false
 

@@ -15,7 +15,7 @@ module KafkaRailsIntegration
         private
 
         def publish!(action)
-          Kafka::Producer.produce(payload(action), "#{self.class.name}-#{action}".underscore)
+          KafkaRailsIntegration::Producer.produce(payload(action), "#{self.class.name}-#{action}".underscore)
         end
 
         def publish_created!

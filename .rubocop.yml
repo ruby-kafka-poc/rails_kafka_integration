@@ -2,7 +2,7 @@ AllCops:
   NewCops: enable
   Exclude:
     - 'bin/**/*'
-  TargetRubyVersion: 3.1.0
+  TargetRubyVersion: 3.1
 
 require:
   - rubocop-rake

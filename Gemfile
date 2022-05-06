@@ -5,6 +5,7 @@ source 'https://rubygems.org'
 # Specify your gem's dependencies in kafka_rails_integration.gemspec
 gemspec
 
+gem 'karafka', '>= 2.0.0.alpha2'
 gem 'rake'
 gem 'rspec'
 gem 'rubocop'

@@ -3,9 +3,10 @@ AllCops:
   Exclude:
     - 'bin/**/*'
   TargetRubyVersion: 3.1
+  SuggestExtensions: false
 
-require:
-  - rubocop-rake
+# require:
+# - rubocop-rake
 #  - rubocop-rspec
 
 Style/Documentation:

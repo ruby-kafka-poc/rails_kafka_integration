@@ -11,4 +11,7 @@ gem 'rake'
 gem 'rspec'
 gem 'rubocop'
 gem 'rubocop-rake'
-gem 'rubocop-rspec'
+# Error: RuboCop found unsupported Ruby version 2.5 in `TargetRubyVersion`
+# parameter (in vendor/bundle/ruby/3.1.0/gems/rubocop-rake-0.6.0/.rubocop.yml).
+# 2.5-compatible analysis was dropped after version 1.28.
+# gem 'rubocop-rspec'

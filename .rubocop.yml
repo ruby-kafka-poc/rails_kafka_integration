@@ -6,7 +6,7 @@ AllCops:
 
 require:
   - rubocop-rake
-  - rubocop-rspec
+#  - rubocop-rspec
 
 Style/Documentation:
   Enabled: false

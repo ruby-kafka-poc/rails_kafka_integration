@@ -103,8 +103,6 @@ GEM
       parser (>= 3.1.1.0)
     rubocop-rake (0.6.0)
       rubocop (~> 1.0)
-    rubocop-rspec (2.10.0)
-      rubocop (~> 1.19)
     ruby-progressbar (1.11.0)
     thor (1.2.1)
     tzinfo (2.0.4)
@@ -131,7 +129,6 @@ DEPENDENCIES
   rspec
   rubocop
   rubocop-rake
-  rubocop-rspec
 
 BUNDLED WITH
    2.3.7

@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'active_support'
+
 # https://stackoverflow.com/a/37530131/992630
 module KafkaRailsIntegration
   module Concerns

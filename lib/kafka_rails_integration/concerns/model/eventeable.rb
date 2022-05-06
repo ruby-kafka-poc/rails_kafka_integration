@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'active_support'
+
 module KafkaRailsIntegration
   module Concerns
     module Model

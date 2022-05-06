@@ -1,0 +1,20 @@
+AllCops:
+  NewCops: enable
+  Exclude:
+    - 'bin/**/*'
+  TargetRubyVersion: 3.1.0
+
+require:
+  - rubocop-rake
+  - rubocop-rspec
+
+Style/Documentation:
+  Enabled: false
+
+Metrics/BlockLength:
+  IgnoredMethods: ['describe', 'context']
+  Exclude:
+    - 'Rakefile'
+    - '**/*.rake'
+    - 'test/**/*.rb'
+    - 'db/schema.rb'

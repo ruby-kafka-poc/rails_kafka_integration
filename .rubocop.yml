@@ -2,11 +2,13 @@ AllCops:
   NewCops: enable
   Exclude:
     - 'bin/**/*'
-  TargetRubyVersion: 3.1.0
+    - 'vendor/**/*'
+  TargetRubyVersion: 3.1.2
+  SuggestExtensions: false
 
-require:
-  - rubocop-rake
-  - rubocop-rspec
+# require:
+# - rubocop-rake
+#  - rubocop-rspec
 
 Style/Documentation:
   Enabled: false

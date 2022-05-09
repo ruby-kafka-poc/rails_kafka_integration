@@ -8,6 +8,14 @@ module KafkaRailsIntegration
       module Eventeable
         extend ActiveSupport::Concern
 
+        attr_reader :options
+
+        # Set as_json object to serialize payload
+        # @param [Hash] options as_json serializable options
+        def eventeable(options = {})
+          @options = options
+        end
+
         included do
           after_commit :publish_created!, on: :create
           after_commit :publish_edited!, on: :update
@@ -35,7 +43,7 @@ module KafkaRailsIntegration
         def payload(action)
           {
             entity: self.class.name,
-            object: as_json,
+            object: as_json(options),
             action:
           }
         end

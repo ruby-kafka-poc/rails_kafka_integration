@@ -38,12 +38,9 @@ module KafkaRailsIntegration
 
     def self.client
       @client ||= WaterDrop::Producer.new.tap do |producer|
-        producer.setup do |config|
-          config.deliver = true
-          config.kafka = {
-            'bootstrap.servers': 'localhost:9092',
-            'request.required.acks': 1
-          }
+        producer.setup do |c|
+          c.deliver = true
+          c.kafka = KafkaRailsIntegration.config
         end
       end
     end

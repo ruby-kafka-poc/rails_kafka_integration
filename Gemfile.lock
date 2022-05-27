@@ -70,7 +70,6 @@ GEM
     parallel (1.22.1)
     parser (3.1.2.0)
       ast (~> 2.4.1)
-    psych (3.3.2)
     rainbow (3.1.1)
     rake (13.0.6)
     rdkafka (0.11.1)
@@ -131,7 +130,6 @@ DEPENDENCIES
   activesupport (~> 7.0.2)
   kafka_rails_integration!
   karafka (>= 2.0.0.alpha2)
-  psych (< 4)
   rake
   rspec
   rubocop

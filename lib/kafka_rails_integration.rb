@@ -21,7 +21,7 @@ module KafkaRailsIntegration
   def self.configure_with(path)
     begin
       environment = defined?(Rails) ? Rails.env : ENV["RACK_ENV"]
-      settings = YAML.load(ERB.new(File.new(path).read).result)[environment]
+      settings = YAML.load(ERB.new(File.new(path).read).result, aliases: true)[environment]
       @config = settings
     rescue Errno::ENOENT
       raise "YAML configuration file couldn't be found."

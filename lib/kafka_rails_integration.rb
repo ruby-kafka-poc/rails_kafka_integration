@@ -21,11 +21,9 @@ module KafkaRailsIntegration
     begin
       @config = YAML.load(File.read(path_to_yaml_file))
     rescue Errno::ENOENT
-      log(:warning, "YAML configuration file couldn't be found. Using defaults.")
-      return
+      raise "YAML configuration file couldn't be found."
     rescue Psych::SyntaxError
-      log(:warning, 'YAML configuration file contains invalid syntax. Using defaults.')
-      return
+      raise 'YAML configuration file contains invalid syntax.'
     end
 
     configure(config)

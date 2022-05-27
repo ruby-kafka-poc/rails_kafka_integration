@@ -6,6 +6,7 @@ require 'kafka_rails_integration/middlewares/deliver_messages'
 require 'kafka_rails_integration/producer/producer'
 require 'kafka_rails_integration/version'
 
+require 'erb'
 require 'yaml'
 
 module KafkaRailsIntegration
@@ -17,9 +18,11 @@ module KafkaRailsIntegration
   end
 
   # Configure through yaml file
-  def self.configure_with(path_to_yaml_file)
+  def self.configure_with(path)
     begin
-      @config = YAML.load(File.read(path_to_yaml_file))
+      environment = defined?(Rails) ? Rails.env : ENV["RACK_ENV"]
+      settings = YAML.load(ERB.new(File.new(path).read).result)[environment]
+      @config = settings
     rescue Errno::ENOENT
       raise "YAML configuration file couldn't be found."
     rescue Psych::SyntaxError

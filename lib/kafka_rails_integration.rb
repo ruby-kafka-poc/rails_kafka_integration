@@ -32,7 +32,7 @@ module KafkaRailsIntegration
   # @param [String] path to kafka.yml config file.
   def self.configure_with(path)
     begin
-      environment = defined?(Rails) ? Rails.env : ENV["RACK_ENV"]
+      environment = defined?(Rails) ? Rails.env : ENV['RACK_ENV']
       settings = YAML.load(ERB.new(File.new(path).read).result, aliases: true)[environment]
     rescue Errno::ENOENT
       logger.warn("YAML configuration file couldn't be found.")

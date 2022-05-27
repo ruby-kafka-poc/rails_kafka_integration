@@ -13,11 +13,11 @@ module KafkaRailsIntegration
   class Error < StandardError; end
 
   @config = {
-    bootstrap_servers: 'localhost:9092',
-    request_required_acks: 1,
-    sasl_mechanism: nil,
-    sasl_username: nil,
-    sasl_password: nil
+    'bootstrap.servers': 'localhost:9092',
+    'request.required.acks': 1,
+    'sasl.mechanism': nil,
+    'sasl.username': nil,
+    'sasl.password': nil
   }
   @valid_config_keys = @config.keys
 

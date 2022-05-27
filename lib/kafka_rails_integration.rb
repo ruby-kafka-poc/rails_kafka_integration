@@ -15,9 +15,9 @@ module KafkaRailsIntegration
   @config = {
     'bootstrap.servers': 'localhost:9092',
     'request.required.acks': 1,
-    'sasl.mechanism': nil,
-    'sasl.username': nil,
-    'sasl.password': nil
+    # 'sasl.mechanism': nil,
+    'sasl.plain.username': nil,
+    'sasl.plain.password': nil
   }
   @valid_config_keys = @config.keys
 

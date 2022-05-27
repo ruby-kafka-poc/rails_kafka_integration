@@ -11,6 +11,8 @@ gem 'rake'
 gem 'rspec'
 gem 'rubocop'
 gem 'simplecov'
+gem 'simplecov-gem-profile'
+
 # gem 'rubocop-rake'
 # Error: RuboCop found unsupported Ruby version 2.5 in `TargetRubyVersion`
 # parameter (in vendor/bundle/ruby/3.1.0/gems/rubocop-rake-0.6.0/.rubocop.yml).

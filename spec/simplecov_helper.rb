@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'simplecov'
+require 'simplecov-gem-profile'
 
 SimpleCov.start 'gem' do
   enable_coverage :branch
@@ -22,5 +23,5 @@ SimpleCov.start 'gem' do
   end
 
   track_files '**/*.rb'
-  minimum_coverage line: 0, branch: 0
+  minimum_coverage line: 90, branch: 80
 end

@@ -19,10 +19,11 @@ module KafkaRailsIntegration
     sasl_username: nil,
     sasl_password: nil
   }
+  @valid_config_keys = @config.keys
 
   # Configure through hash
   def self.configure(opts = {})
-    @config = opts.slice(@config.keys)
+    opts.each { |k, v| @config[k.to_sym] = v if @valid_config_keys.include? k.to_sym }
   end
 
   # Configure kafka through yaml file

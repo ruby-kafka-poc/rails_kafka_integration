@@ -31,7 +31,11 @@ module KafkaRailsIntegration
     (opts.with_indifferent_access[:topics] || []).each do |topic|
       @topics << topic
       # TODO: allow more configs
-      kafka_client.create_topic(topic, num_partitions: 1, replication_factor: 3)
+      begin
+        kafka_client.create_topic(topic, num_partitions: 1, replication_factor: 3)
+      rescue Kafka::TopicAlreadyExists
+        #  TODO: this sucks =D do it right lazy boy!
+      end
     end
   end
 

@@ -43,6 +43,7 @@ module KafkaRailsIntegration
           config.deliver = true
           config.kafka = {
             'bootstrap.servers': KafkaRailsIntegration.config[:bootstrap_servers],
+            'security.protocol': KafkaRailsIntegration.config[:security_protocol],
             'sasl.mechanisms': KafkaRailsIntegration.config[:sasl_mechanism],
             'sasl.username': KafkaRailsIntegration.config[:sasl_username],
             'sasl.password': KafkaRailsIntegration.config[:sasl_password],

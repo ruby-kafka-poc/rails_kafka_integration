@@ -6,7 +6,8 @@ source 'https://rubygems.org'
 gemspec
 
 gem 'activesupport', '~> 7.0.2'
-gem 'karafka', '>= 2.0.0.alpha2'
+# gem 'karafka', '>= 2.0.0.alpha2'
+gem 'ruby-kafka'
 gem 'rake'
 gem 'rspec'
 gem 'rubocop'

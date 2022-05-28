@@ -6,6 +6,7 @@ require 'kafka_rails_integration/middlewares/deliver_messages'
 require 'kafka_rails_integration/producer/producer'
 require 'kafka_rails_integration/version'
 
+require "kafka"
 require 'erb'
 require 'yaml'
 
@@ -21,10 +22,17 @@ module KafkaRailsIntegration
     sasl_password: nil
   }
   @valid_config_keys = @config.keys
+  @topics = []
 
   # Configure through hash
   def self.configure(opts = {})
     opts.each { |k, v| @config[k.to_sym] = v if @valid_config_keys.include? k.to_sym }
+
+    (opts[:topics] || []).each do |topic|
+      @topics << topic
+      # TODO: allow more configs
+      kafka_client.create_topic(topic, num_partitions: 1, replication_factor: 1)
+    end
   end
 
   # Configure kafka through yaml file
@@ -48,34 +56,22 @@ module KafkaRailsIntegration
     @config
   end
 
-  # Returns the default logger, which is either a Rails logger of stdout logger
-  #
-  # @example Get the default logger
-  #   config.default_logger
-  #
-  # @return [ Logger ] The default Logger instance.
-  def default_logger
-    defined?(Rails) ? Rails.logger : ::Logger.new($stdout)
+  def self.topics
+    @topics
   end
 
-  # Returns the logger, or defaults to Rails logger or stdout logger.
-  #
-  # @example Get the logger.
-  #   config.logger
-  #
-  # @return [ Logger ] The configured logger or a default Logger instance.
+  def self.kafka_client
+    # TODO: Allow non sasl config
+    @kafka_client ||= Kafka.new(
+      config[:bootstrap_servers],
+      client_id: Rails.application.class.module_parent_name,
+      sasl_plain_username: config[:sasl_username],
+      sasl_plain_password: config[:sasl_password],
+      ssl_ca_certs_from_system: true
+    )
+  end
+
   def logger
-    @logger = default_logger unless defined?(@logger)
-    @logger
-  end
-
-  # Sets the logger for Mongoid to use.
-  #
-  # @example Set the logger.
-  #   config.logger = Logger.new($stdout, :warn)
-  #
-  # @return [ Logger ] The newly set logger.
-  def logger=(logger)
-    @logger = logger
+    @logger ||= Rails.logger
   end
 end

@@ -26,6 +26,7 @@ module KafkaRailsIntegration
         raise "Invalid mode. Must be one of #{MODES}"
       end
     end
+
     # rubocop:enable Metrics/MethodLength
 
     # Flush messages to Kafka
@@ -41,11 +42,10 @@ module KafkaRailsIntegration
         producer.setup do |config|
           config.deliver = true
           config.kafka = {
-            'bootstrap.servers': 'localhost:9092',
-            'request.required.acks': 1,
-            'sasl.mechanisms': KafkaRailsIntegration[:sasl_mechanism],
-            'sasl.username': KafkaRailsIntegration[:sasl_username],
-            'sasl.password': KafkaRailsIntegration[:sasl_password],
+            'bootstrap.servers': KafkaRailsIntegration.config[:bootstrap_servers],
+            'sasl.mechanisms': KafkaRailsIntegration.config[:sasl_mechanism],
+            'sasl.username': KafkaRailsIntegration.config[:sasl_username],
+            'sasl.password': KafkaRailsIntegration.config[:sasl_password],
           }
         end
       end

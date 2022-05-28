@@ -17,13 +17,13 @@ module KafkaRailsIntegration
 
       case mode
       when :buffer
-        # KafkaRailsIntegration.kafka_client.buffer(topic: topic.underscore, payload:)
+        # KafkaRailsIntegration.producer.buffer(topic: topic.underscore, payload:)
         @dirty = true
-        KafkaRailsIntegration.kafka_client.produce(topic: topic, payload:)
+        KafkaRailsIntegration.producer.produce(topic: topic, payload:)
       when :async
-        # KafkaRailsIntegration.kafka_client.produce_async(topic: topic, payload:)
+        # KafkaRailsIntegration.producer.produce_async(topic: topic, payload:)
       when :sync
-        KafkaRailsIntegration.kafka_client.produce(topic: topic, payload:)
+        KafkaRailsIntegration.producer.produce(topic: topic, payload:)
       else
         raise "Invalid mode. Must be one of #{MODES}"
       end
@@ -35,7 +35,7 @@ module KafkaRailsIntegration
       return unless @dirty
 
       @dirty = false
-      KafkaRailsIntegration.kafka_client.deliver_messages
+      KafkaRailsIntegration.producer.deliver_messages
     end
   end
 end

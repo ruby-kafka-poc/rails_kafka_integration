@@ -75,6 +75,11 @@ module KafkaRailsIntegration
     )
   end
 
+  def self.producer
+    # TODO: Move it
+    @producer ||= client.producer
+  end
+
   def logger
     @logger ||= Rails.logger
   end

@@ -38,9 +38,15 @@ module KafkaRailsIntegration
 
     def self.client
       @client ||= WaterDrop::Producer.new.tap do |producer|
-        producer.setup do |c|
-          c.deliver = true
-          c.kafka = KafkaRailsIntegration.config
+        producer.setup do |config|
+          config.deliver = true
+          config.kafka = {
+            'bootstrap.servers': 'localhost:9092',
+            'request.required.acks': 1,
+            'sasl.mechanisms': KafkaRailsIntegration[:sasl_mechanism],
+            'sasl.username': KafkaRailsIntegration[:sasl_username],
+            'sasl.password': KafkaRailsIntegration[:sasl_password],
+          }
         end
       end
     end

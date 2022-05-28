@@ -28,7 +28,7 @@ module KafkaRailsIntegration
   def self.configure(opts = {})
     opts.each { |k, v| @config[k.to_sym] = v if @valid_config_keys.include? k.to_sym }
 
-    (opts[:topics] || []).each do |topic|
+    (opts.with_indifferent_access[:topics] || []).each do |topic|
       @topics << topic
       # TODO: allow more configs
       kafka_client.create_topic(topic, num_partitions: 1, replication_factor: 1)

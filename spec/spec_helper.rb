@@ -1,7 +1,14 @@
 # frozen_string_literal: true
 
-require 'kafka_rails_integration'
+# Simplecov need to be first required
 require 'simplecov_helper'
+require 'kafka_rails_integration'
+
+begin
+  require 'debug'
+rescue LoadError
+  # debug is not activated.
+end
 
 RSpec.configure do |config|
   # Enable flags like --only-failures and --next-failure

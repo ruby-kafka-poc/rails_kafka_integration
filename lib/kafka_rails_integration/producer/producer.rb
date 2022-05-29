@@ -19,11 +19,11 @@ module KafkaRailsIntegration
       when :buffer
         # KafkaRailsIntegration.producer.buffer(topic: topic.underscore, payload:)
         @dirty = true
-        KafkaRailsIntegration.producer.produce(payload, topic: topic)
+        KafkaRailsIntegration.producer.produce(payload, topic:)
       when :async
         # KafkaRailsIntegration.producer.produce_async(topic: topic, payload:)
       when :sync
-        KafkaRailsIntegration.producer.produce(payload, topic: topic)
+        KafkaRailsIntegration.producer.produce(payload, topic:)
         KafkaRailsIntegration.producer.deliver_messages
       else
         raise "Invalid mode. Must be one of #{MODES}"

@@ -6,7 +6,7 @@ require 'kafka_rails_integration/middlewares/deliver_messages'
 require 'kafka_rails_integration/producer/producer'
 require 'kafka_rails_integration/version'
 
-require "kafka"
+require 'kafka'
 require 'erb'
 require 'yaml'
 
@@ -26,9 +26,10 @@ module KafkaRailsIntegration
 
   # Configure through hash
   def self.configure(opts = {})
-    opts.each { |k, v| @config[k.to_sym] = v if @valid_config_keys.include? k.to_sym }
+    opts = opts.transform_keys(&:to_sym)
+    opts.each { |k, v| @config[k] = v if @valid_config_keys.include? k }
 
-    (opts.with_indifferent_access[:topics] || []).each do |topic|
+    (opts[:topics] || []).each do |topic|
       @topics << topic
       # TODO: allow more configs
       begin
@@ -68,7 +69,7 @@ module KafkaRailsIntegration
     # TODO: Allow non sasl config
     @kafka_client ||= Kafka.new(
       config[:bootstrap_servers],
-      client_id: Rails.application.class.module_parent_name,
+      client_id:,
       sasl_plain_username: config[:sasl_username],
       sasl_plain_password: config[:sasl_password],
       ssl_ca_certs_from_system: true
@@ -82,5 +83,9 @@ module KafkaRailsIntegration
 
   def logger
     @logger ||= Rails.logger
+  end
+
+  def self.client_id
+    defined?(Rails) ? Rails.application.class.module_parent_name : config[:client_id]
   end
 end

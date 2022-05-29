@@ -29,6 +29,8 @@ module KafkaRailsIntegration
     opts = opts.transform_keys(&:to_sym)
     opts.each { |k, v| @config[k] = v if @valid_config_keys.include? k }
 
+    @client_id = opts[:client_id]
+
     (opts[:topics] || []).each do |topic|
       @topics << topic
       # TODO: allow more configs
@@ -46,15 +48,15 @@ module KafkaRailsIntegration
   # @param [String] path to kafka.yml config file.
   def self.configure_with(path)
     begin
-      environment = defined?(Rails) ? Rails.env : ENV['RACK_ENV']
-      settings = YAML.load(ERB.new(File.new(path).read).result, aliases: true)[environment]
+      data = YAML.load(ERB.new(File.new(path).read).result, aliases: true)
+      settings = data&.fetch(Rails.env)
     rescue Errno::ENOENT
       logger.warn("YAML configuration file couldn't be found.")
     rescue Psych::SyntaxError
       logger.warn('YAML configuration file contains invalid syntax.')
     end
 
-    configure(settings)
+    configure(settings) if settings
   end
 
   def self.config
@@ -81,11 +83,11 @@ module KafkaRailsIntegration
     @producer ||= kafka_client.producer
   end
 
-  def logger
+  def self.logger
     @logger ||= Rails.logger
   end
 
   def self.client_id
-    defined?(Rails) ? Rails.application.class.module_parent_name : config[:client_id]
+    @client_id ||= Rails.application.class.module_parent_name
   end
 end

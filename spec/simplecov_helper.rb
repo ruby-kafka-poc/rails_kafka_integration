@@ -6,7 +6,7 @@ require 'simplecov-gem-profile'
 SimpleCov.start 'gem' do
   enable_coverage :branch
 
-  add_filter "/test/"
+  add_filter '/test/'
 
   add_group 'Long files' do |src_file|
     src_file.lines.count > 100

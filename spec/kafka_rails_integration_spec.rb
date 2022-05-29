@@ -30,12 +30,12 @@ RSpec.describe KafkaRailsIntegration do
   after do
     KafkaRailsIntegration.instance_variable_set('@topics', [])
     KafkaRailsIntegration.instance_variable_set('@config', default_config)
-    KafkaRailsIntegration.instance_variable_set("@logger", nil)
+    KafkaRailsIntegration.instance_variable_set('@logger', nil)
   end
 
   it 'has a version number' do
-    expect(KafkaRailsIntegration::VERSION).not_to be_nil
-    end
+    expect(KafkaRailsIntegration::VERSION).to eq('0.1.0')
+  end
 
   it 'has a client id' do
     expect(KafkaRailsIntegration.client_id).to eq('TestingMe')
@@ -128,14 +128,14 @@ RSpec.describe KafkaRailsIntegration do
           expect(KafkaRailsIntegration.topics).to be_empty
           expect(KafkaRailsIntegration.config).to eq(default_config)
         end
-        end
+      end
 
       context 'with error file' do
         let(:topics) { [] }
         let(:path) { './spec/files/error_kafka_config.yml' }
 
         it 'log an error' do
-          expect(logger).to have_received(:warn).with("YAML configuration file contains invalid syntax.").once
+          expect(logger).to have_received(:warn).with('YAML configuration file contains invalid syntax.').once
           expect(KafkaRailsIntegration.topics).to be_empty
           expect(KafkaRailsIntegration.config).to eq(default_config)
         end

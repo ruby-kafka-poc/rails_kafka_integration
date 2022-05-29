@@ -8,44 +8,38 @@ module KafkaRailsIntegration
     # Send payload to Kafka
     #
     # @param payload [Object] Hash will dump to string. any other `#to_s`
-    #
     # @param topic [String] kafka topic name.
+    # @param [Symbol] mode [:buffer (default), :async, :sync]
+    #
     # rubocop:disable Metrics/MethodLength
     def self.produce(payload, topic = 'default', mode = :buffer)
       payload = payload.is_a?(Hash) ? JSON.dump(payload) : payload.to_s
 
       case mode
       when :buffer
-        client.buffer(topic: topic.underscore, payload:)
         @dirty = true
+        KafkaRailsIntegration.producer.produce(payload, topic:)
       when :async
-        client.produce_async(topic: topic.underscore, payload:)
+        raise NotImplementedError
       when :sync
-        client.produce_sync(topic: topic.underscore, payload:)
+        KafkaRailsIntegration.producer.produce(payload, topic:)
+        KafkaRailsIntegration.producer.deliver_messages
       else
         raise "Invalid mode. Must be one of #{MODES}"
       end
+
+      @dirty
     end
     # rubocop:enable Metrics/MethodLength
 
     # Flush messages to Kafka
     def self.deliver!
-      return unless @dirty
+      return false unless @dirty
 
       @dirty = false
-      client.flush_sync
-    end
+      KafkaRailsIntegration.producer.deliver_messages
 
-    def self.client
-      @client ||= WaterDrop::Producer.new.tap do |producer|
-        producer.setup do |config|
-          config.deliver = true
-          config.kafka = {
-            'bootstrap.servers': 'localhost:9092',
-            'request.required.acks': 1
-          }
-        end
-      end
+      true
     end
   end
 end

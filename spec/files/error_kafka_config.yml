@@ -1,0 +1,9 @@
+default: &default
+  bootstrap_servers: ks: 5
+  topics:
+    - some
+    - topic
+
+test:
+  <<: *default
+  bootstrap_servers: 'localhost:9092'

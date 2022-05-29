@@ -21,22 +21,26 @@ module KafkaRailsIntegration
         @dirty = true
         KafkaRailsIntegration.producer.produce(payload, topic:)
       when :async
-        # KafkaRailsIntegration.producer.produce_async(topic: topic, payload:)
+        raise NotImplementedError
       when :sync
         KafkaRailsIntegration.producer.produce(payload, topic:)
         KafkaRailsIntegration.producer.deliver_messages
       else
         raise "Invalid mode. Must be one of #{MODES}"
       end
+
+      @dirty
     end
     # rubocop:enable Metrics/MethodLength
 
     # Flush messages to Kafka
     def self.deliver!
-      return unless @dirty
+      return false unless @dirty
 
       @dirty = false
       KafkaRailsIntegration.producer.deliver_messages
+
+      true
     end
   end
 end

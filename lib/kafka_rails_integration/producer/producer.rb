@@ -17,7 +17,6 @@ module KafkaRailsIntegration
 
       case mode
       when :buffer
-        # KafkaRailsIntegration.producer.buffer(topic: topic.underscore, payload:)
         @dirty = true
         KafkaRailsIntegration.producer.produce(payload, topic:)
       when :async

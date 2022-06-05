@@ -21,7 +21,7 @@ module KafkaRailsIntegration
       super
       raise 'Topic required (topic :subscribed_topic)' unless self.class.subscribed_topic
 
-      consumer.subscribe(self.class.subscribed_topic.to_s, start_from_beginner: true)
+      consumer.subscribe(self.class.subscribed_topic.to_s, start_from_beginning: true)
       consumer.each_message do |message|
         consume(message)
       end

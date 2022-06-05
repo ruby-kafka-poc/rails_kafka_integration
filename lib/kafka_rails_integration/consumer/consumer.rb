@@ -9,7 +9,7 @@ module KafkaRailsIntegration
       attr_reader :subscribed_group_id, :subscribed_topic
     end
 
-    def self.subscribed_group_id(group)
+    def self.group_id(group)
       @subscribed_group_id = group
     end
 
@@ -34,7 +34,9 @@ module KafkaRailsIntegration
     private
 
     def consumer
-      @consumer ||= KafkaRailsIntegration.consumer
+      raise 'group_id required (group_id :subscribed_group_id)' unless self.class.subscribed_group_id
+
+      @consumer ||= KafkaRailsIntegration.consumer(self.class.subscribed_group_id)
     end
   end
 end

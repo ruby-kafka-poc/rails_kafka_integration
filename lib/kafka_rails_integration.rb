@@ -82,8 +82,8 @@ module KafkaRailsIntegration
     @producer ||= kafka_client.producer
   end
 
-  def self.consumer
-    @consumer ||= kafka_client.consumer
+  def self.consumer(group_id)
+    @consumer ||= kafka_client.consumer(group_id:)
   end
 
   def self.logger

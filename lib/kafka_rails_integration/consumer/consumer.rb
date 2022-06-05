@@ -36,7 +36,7 @@ module KafkaRailsIntegration
     def consumer
       raise 'group_id required (group_id :subscribed_group_id)' unless self.class.subscribed_group_id
 
-      @consumer ||= KafkaRailsIntegration.consumer(self.class.subscribed_group_id)
+      @consumer ||= KafkaRailsIntegration.consumer(self.class.subscribed_group_id.to_s)
     end
   end
 end

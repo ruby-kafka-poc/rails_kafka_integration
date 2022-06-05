@@ -1,0 +1,40 @@
+
+# frozen_string_literal: true
+
+require 'json'
+
+module KafkaRailsIntegration
+  class Consumer
+    class << self
+      attr_reader :subscribed_group_id, :subscribed_topic
+    end
+
+    def self.subscribed_group_id(group)
+      @subscribed_group_id = group
+    end
+
+    def self.topic(name)
+      @subscribed_topic = name
+    end
+
+    def initialize
+      super
+      raise 'Topic required (topic :subscribed_topic)' unless self.class.subscribed_topic
+
+      consumer.subscribe(self.class.subscribed_topic.to_s, start_from_beginner: true)
+      consumer.each_message do |message|
+        consume(message)
+      end
+    end
+
+    def consume(_message)
+      raise NotImplementedError
+    end
+
+    private
+
+    def consumer
+      @consumer ||= KafkaRailsIntegration.consumer
+    end
+  end
+end

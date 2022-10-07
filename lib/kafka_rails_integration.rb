@@ -27,19 +27,10 @@ module KafkaRailsIntegration
   # Configure through hash
   def self.configure(opts = {})
     opts = opts.transform_keys(&:to_sym)
+    @client_id = opts[:client_id]
     opts.each { |k, v| @config[k] = v if @valid_config_keys.include? k }
 
-    @client_id = opts[:client_id]
-
-    (opts[:topics] || []).each do |topic|
-      @topics << topic
-      # TODO: allow more configs
-      begin
-        kafka_client.create_topic(topic, num_partitions: 1, replication_factor: 3)
-      rescue Kafka::TopicAlreadyExists
-        #  TODO: this sucks =D do it right lazy boy!
-      end
-    end
+    set_topics(opts)
   end
 
   # Configure kafka through yaml file
@@ -89,5 +80,19 @@ module KafkaRailsIntegration
 
   def self.client_id
     @client_id ||= Rails.application.class.module_parent_name
+  end
+
+  private
+
+  def self.set_topics(opts)
+    (opts[:topics] || []).each do |topic|
+      @topics << topic
+      # TODO: allow more configs
+      begin
+        kafka_client.create_topic(topic, num_partitions: 1, replication_factor: 3)
+      rescue Kafka::TopicAlreadyExists
+        #  TODO: this sucks =D do it right lazy boy!
+      end
+    end
   end
 end

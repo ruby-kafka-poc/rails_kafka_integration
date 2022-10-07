@@ -25,7 +25,7 @@ module KafkaRailsIntegration
         private
 
         def publish!(action)
-          topic = "#{self.class.name}-#{action}".underscore
+          topic = "#{self.class.name}s".underscore
           return unless KafkaRailsIntegration.topics.include?(topic)
 
           KafkaRailsIntegration::Producer.produce(
@@ -47,11 +47,10 @@ module KafkaRailsIntegration
         end
 
         def payload(action)
-          {
+          as_json(options).merge(
             entity: self.class.name,
-            object: as_json(options),
             action:
-          }
+          )
         end
       end
     end
